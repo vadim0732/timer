@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Таймер</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin-top: 50px; }
+        #timer-display { font-size: 5rem; font-weight: bold; margin: 20px 0; color: #333; }
+        .finished { color: red; font-size: 3rem; }
+        a { margin-top: 20px; font-size: 18px; text-decoration: none; color: #007bff; }
+    </style>
+</head>
+<body>
+    <h1>Обратный отсчёт</h1>
+    <div id="timer-display">00:00</div>
+    <a href="{% url 'start_page' %}">← Назад к настройкам</a>
+
+    <script>
+        // Получаем начальное время из контекста Django
+        let totalSeconds = {{ initial_seconds }};
+        const display = document.getElementById('timer-display');
+        
+        // Функция форматирования времени (Минуты:Секунды)
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        }
+
+        // Выводим начальное время
+        if (totalSeconds > 0) {
+            display.textContent = formatTime(totalSeconds);
+            
+            // Запускаем интервал (каждую 1000 мс = 1 сек)
+            const interval = setInterval(() => {
+                totalSeconds--;
+                display.textContent = formatTime(totalSeconds);
+
+                // Если время вышло
+                if (totalSeconds <= 0) {
+                    clearInterval(interval);
+                    display.textContent = "ВРЕМЯ ВЫШЛО!";
+                    display.classList.add('finished');
+                }
+            }, 1000);
+        } else {
+            display.textContent = "00:00";
+        }
+    </script>
+</body>
+</html>

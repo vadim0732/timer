@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Запуск таймера</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin-top: 50px; }
+        form { display: flex; flex-direction: column; gap: 15px; width: 200px; }
+        input, button { padding: 10px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <h1>Настройка таймера</h1>
+    <form action="{% url 'timer_page' %}" method="get">
+        <label for="seconds">Количество секунд:</label>
+        <input type="number" id="seconds" name="seconds" min="1" required value="10">
+        <button type="submit">Запуск</button>
+    </form>
+</body>
+</html>
